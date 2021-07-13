@@ -60,11 +60,21 @@ WHERE preco = (SELECT MAX(preco) FROM Produto)
 SELECT Vendedor.filial, AVG(salario) as media FROM vendedor
 GROUP BY Vendedor.filial HAVING AVG(salario) > 3000
 
--- c. A média de unidades vendidas de cada produto. Mostrar o nome do produto e a quantidade média.
+SELECT Vendedor.filial, AVG(salario) 
+FROM Vendedor GROUP BY filial
+HAVING AVG(salario) > 3000
 
+-- c. A média de unidades vendidas de cada produto. Mostrar o nome do produto e a quantidade média.
+SELECT Produto.nomeProduto, AVG(qtd) 
+FROM Venda, Produto
+WHERE Venda.produto = Produto.codProduto
+GROUP BY Produto.nomeProduto
 
 -- d. O volume total de vendas realizado por cada vendedor. Obs.: o valor de cada venda é (preco * qtd).
-
+SELECT Vendedor.nomeVendedor, SUM(preco * qtd)
+FROM Venda, Produto, Vendedor
+WHERE Venda.produto = Produto.codProduto AND Vendedor.codVendedor = Venda.vendedor
+GROUP BY Vendedor.nomeVendedor
 
 -- e. O volume total de vendas realizado por cada filial.
 
